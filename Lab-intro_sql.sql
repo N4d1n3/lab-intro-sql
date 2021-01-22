@@ -1,6 +1,4 @@
--- ALL 2.X LABS IN THIS FILE
-
--- LAB 1
+-- all sql labs may be found in this file in consecutive order
 
 use sakila;
 
@@ -98,10 +96,6 @@ VALUES ('130', '2021-01-21', '79' , '2', '1');
 
 -- 9
 
-				       
-				       
--- LAB 2 Part 1				       
-				       
 drop table if exists deleted_users;
 
 CREATE TABLE sakila.deleted_users(
@@ -157,7 +151,7 @@ WHERE language_id = language_id;
 select * 
 from films_2020;
 
--- LAB 2 PART 2
+-- LAB PART 2
 USE sakila; 
 -- 1
 SELECT  last_name, count(*)
@@ -196,3 +190,44 @@ SELECT rating, round(avg(length),2)
 FROM film
 GROUP BY rating
 HAVING round(avg(length),2) > '120' ;
+
+
+-- Lab | SQL Queries 8
+-- 1
+
+SELECT length, title,
+RANK() OVER (PARTITION BY length
+ORDER BY length DESC)
+FROM film WHERE length IS NOT NULL;
+
+-- 2
+SELECT title, length, rating,
+RANK() OVER(PARTITION BY rating
+ORDER BY length DESC)
+FROM film;
+
+-- 3
+USE sakila; 
+SELECT name, COUNT(film_id) AS SUM_FILM
+FROM category 
+INNER JOIN film_category
+ON film_category.category_id = category.category_id
+GROUP BY category.name;
+
+-- 4
+
+SELECT COUNT(film_id) as count_movies, actor.actor_id, first_name, last_name
+FROM actor
+RIGHT JOIN film_actor
+ON actor.actor_id = film_actor.actor_id
+GROUP BY actor_id 
+ORDER BY count_movies DESC;
+
+-- 5
+SELECT customer.customer_id, COUNT(rental_date) as no_of_rentals
+FROM customer
+INNER JOIN rental
+ON rental.customer_id=customer.customer_id
+GROUP BY customer_id
+ORDER BY no_of_rentals desc;
+ 
