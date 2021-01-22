@@ -1,3 +1,7 @@
+-- ALL 2.X LABS IN THIS FILE
+
+-- LAB 1
+
 use sakila;
 
 -- 1
@@ -94,6 +98,10 @@ VALUES ('130', '2021-01-21', '79' , '2', '1');
 
 -- 9
 
+				       
+				       
+-- LAB 2 Part 1				       
+				       
 drop table if exists deleted_users;
 
 CREATE TABLE sakila.deleted_users(
@@ -149,7 +157,7 @@ WHERE language_id = language_id;
 select * 
 from films_2020;
 
--- LAB PART 2
+-- LAB 2 PART 2
 USE sakila; 
 -- 1
 SELECT  last_name, count(*)
