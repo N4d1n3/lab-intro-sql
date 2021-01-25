@@ -1,0 +1,79 @@
+-- Lab | SQL Joins on multiple tables
+-- 1 Write a query to display for each store its store ID, city, and country.
+CREATE temporary table sakila.store_location
+SELECT a.store_id, c.city, d.country
+FROM store a
+JOIN  address b
+ON b.address_id=a.address_id
+JOIN city c
+ON c.city_id=b.city_id
+JOIN country d
+ON  d.country_id=c.country_id;
+
+SELECT * 
+FROM sakila.store_location;
+
+-- 2 Write a query to display how much business, in dollars, each store brought in.
+CREATE temporary table sakila.dollarbusiness
+SELECT amount, store_id
+FROM payment a
+JOIN staff b
+ON a.staff_id=b.staff_id;
+
+SELECT sum(amount), store_id
+FROM sakila.dollarbusiness
+GROUP BY store_id;
+
+-- 3 What is the average running time of films by category?
+SELECT c.name, avg(length)
+FROM film a
+join film_category b
+on a.film_id=b.film_id
+join category c
+on c.category_id=b.category_id
+group by c.name;
+
+
+-- 4
+SELECT c.name, MAX(length)
+FROM film a
+join film_category b
+on a.film_id=b.film_id
+join category c
+on c.category_id=b.category_id
+group by c.name;
+
+-- 5 Display the most frequently rented movies in descending order.
+
+
+SELECT count(rental_date), title
+FROM rental a
+JOIN inventory b 
+ON a.inventory_id=b.inventory_id
+JOIN film c
+ON b.film_id=c.film_id
+GROUP BY b.film_id 
+ORDER by count(rental_date) DESC;
+
+-- 6 List the top five genres in gross revenue in descending order.
+SELECT name, amount
+FROM rental a
+JOIN film_category b
+ON a.film_id=b.film_id
+JOIN film c
+ON b.inventory_id=c.inventory_id
+JOIN payment d
+ON c.inventory_id=d.inventory_id
+JOIN payment e
+on e.rental_id = d.rental_id;
+
+-- 7 Is "Academy Dinosaur" available for rent from Store 1?
+SELECT title, c.last_update, c.return_date, c.rental_date, store_id
+FROM film a
+JOIN inventory b
+ON a.film_id=b.film_id
+JOIN rental c
+ON b.inventory_id=c.inventory_id
+WHERE title = 'Academy Dinosaur'
+GROUP BY store_id, title, c.last_update, c.return_date, c.rental_date;
+
