@@ -1,0 +1,20 @@
+-- Lab | SQL Self and cross join
+-- 1 Get all pairs of actors that worked together.
+SELECT *, rank() over(partition by a1.actor_id order by a1.film_id) as RANKS
+FROM sakila.film_actor a1
+join sakila.film_actor a2
+ON a1.actor_id <> a2.actor_id
+and a1.film_id = a2.film_id
+order by RANKS, a1.film_id;
+
+-- 2 Get all pairs of customers that have rented the same film more than 3 times.
+SELECT * 
+FROM sakila.rental a1
+JOIN sakila.rental a2
+ON a1.rental_id <> a2.rental_id
+WHERE a1.customer_id=a2.customer_id and a1.inventory_id=a2.inventory_id;
+
+-- 3 Get all possible pairs of actors and films.
+SELECT film_id, actor.first_name
+FROM SAKILA.film_actor
+CROSS JOIN SAKILA.actor;
