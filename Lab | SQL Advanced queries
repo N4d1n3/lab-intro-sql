@@ -1,0 +1,14 @@
+-- Lab | SQL Advanced queries
+-- 1 List each pair of actors that have worked together.
+USE SAKILA;
+SELECT a.actor_id as actor1, b.actor_id as actor2
+FROM film_actor a, film_actor b
+WHERE a.actor_id <> b.actor_id
+AND a.film_id = b.film_id
+Order by a.film_id;
+
+-- 2 
+Select actor_id, count(film_id)
+FROM film_actor
+group by actor_id
+HAVING count(film_id)>1;
